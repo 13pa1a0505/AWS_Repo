@@ -1,13 +1,34 @@
 <!DOCTYPE html>
- 
 <html>
-    <head>
-        <title>
-            First Web Page
-        </title>
-    </head>
- 
-    <body>
-        Hello World!
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <script>
+        var callAPI = (first_name,last_name)=>{
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            var raw = JSON.stringify({"firstname":first_name,"lastname":last_name});
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            fetch("https://zldj5p0hp9.execute-api.ap-northeast-1.amazonaws.com/Test", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>AWS NBL POC</h1>
+<form>
+        <label>First Name:</label>
+        <input type="text" id="first_name">
+        <label>Last Name:</label>
+        <input type="text" id="last_name">
+        <button type="button" onclick="callAPI(document.getElementById('first_name').value,document.getElementById('last_name').value)">CALL API</button>
+    </form>
+</body>
 </html>
